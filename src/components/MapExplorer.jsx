@@ -290,16 +290,58 @@ export default function MapExplorer({
     const boundaryBounds = boundaryLayer.getBounds();
     boundaryBoundsRef.current = boundaryBounds;
 
-    // FIT PADDING: fitBounds padding [60, 60] on load
-    map.invalidateSize();
-    map.fitBounds(boundaryBounds, { padding: [60, 60], animate: false });
+    // Ensure the map container has a size before fitting bounds
+    // Sticky positioning (kept simple; top margin handled later)
+    if (mapContainerRef.current) {
+      mapContainerRef.current.style.position = 'sticky';
+      mapContainerRef.current.style.top = '8px'; // spacing scale
+      mapContainerRef.current.style.zIndex = '10';
+    }
 
-    // minZoom = fitted zoom - 1; maxBounds padded by about 25% with viscosity 0.9
-    const fitZoom = map.getZoom();
-    map.setMinZoom(fitZoom - 1);
-    const paddedMaxBounds = boundaryBounds.pad(0.25);
-    map.setMaxBounds(paddedMaxBounds);
-    map.options.maxBoundsViscosity = 0.9;
+    const applyFit = () => {
+      map.invalidateSize();
+      map.fitBounds(boundaryBounds, { padding: [40, 40], animate: false });
+      const fitZoom = map.getZoom();
+      map.setMinZoom(fitZoom - 1);
+      const paddedMaxBounds = boundaryBounds.pad(0.25);
+      map.setMaxBounds(paddedMaxBounds);
+      map.options.maxBoundsViscosity = 0.9;
+    };
+
+    // Initial fit after container size is known
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentRect.width && entry.contentRect.height) {
+          applyFit();
+        }
+      }
+    });
+    ro.observe(mapContainerRef.current);
+    // Also fit on next animation frame (in case size already set)
+    requestAnimationFrame(() => {
+      if (mapContainerRef.current && mapContainerRef.current.getBoundingClientRect().height) {
+        applyFit();
+      }
+    });
+    // Re‑fit on window resize
+    const onResize = () => applyFit();
+    window.addEventListener('resize', onResize);
+
+    // Cleanup observer and listener on unmount
+    const cleanup = () => {
+      ro.disconnect();
+      window.removeEventListener('resize', onResize);
+    };
+    // Store cleanup for later (will be called in return cleanup)
+    mapInstanceRef.current = map;
+    // Return a cleanup that also removes map and calls our custom cleanup
+    return () => {
+      cleanup();
+      map.remove();
+      mapInstanceRef.current = null;
+    };
+
+
 
     // CLUSTERS: maxClusterRadius 40, and disableClusteringAtZoom 12
     const clusterGroup = L.markerClusterGroup({
