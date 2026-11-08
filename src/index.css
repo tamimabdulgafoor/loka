@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    color: #20221F;
+    background-color: #F5F2EA;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-feature-settings: "liga" 1, "kern" 1;
+  }
+}
+
+/* Map Container Background */
+.leaflet-container {
+  font-family: 'DM Sans', sans-serif;
+  width: 100%;
+  height: 100%;
+  background: #141816 !important;
+}
+
+/* Calmer Tile Filter: brightness(0.8) contrast(0.9) saturate(0.6) */
+.leaflet-tile-pane {
+  filter: invert(100%) hue-rotate(180deg) brightness(0.8) contrast(0.9) saturate(0.6);
+}
+
+/* Tooltip below zoom 12 (hover only) */
+.leaflet-tooltip.editorial-tooltip {
+  background: #202722 !important;
+  color: #F5F2EA !important;
+  border: 1px solid #254D3B !important;
+  border-radius: 2px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  padding: 4px 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  white-space: nowrap !important;
+}
+
+.leaflet-tooltip-top.editorial-tooltip:before {
+  border-top-color: #202722 !important;
+}
+.leaflet-tooltip-bottom.editorial-tooltip:before {
+  border-bottom-color: #202722 !important;
+}
+
+/* Permanent labels from zoom 12 upward */
+.leaflet-tooltip.editorial-label-permanent {
+  background: #202722 !important;
+  color: #F5F2EA !important;
+  border: none !important;
+  border-radius: 2px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 2px 6px !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+.leaflet-tooltip-right.editorial-label-permanent:before,
+.leaflet-tooltip-left.editorial-label-permanent:before {
+  display: none !important;
+}
+
+/* Leaflet Popups */
+.leaflet-popup-content-wrapper {
+  background: #202722;
+  color: #F5F2EA;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid #254D3B;
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4;
+}
+
+.leaflet-popup-tip {
+  background: #202722;
+}
+
+/* Clusters: background #254D3B, ivory text, 2px #A7B99A border, no halo */
+.marker-cluster {
+  background: transparent !important;
+  border-radius: 50% !important;
+}
+
+.marker-cluster div {
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 5px !important;
+  margin-top: 5px !important;
+  text-align: center !important;
+  border-radius: 50% !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  background-color: #254D3B !important;
+  color: #F5F2EA !important;
+  line-height: 26px !important;
+  border: 2px solid #A7B99A !important;
+  box-shadow: none !important;
+}
+
+/* Controls: zoom buttons and attribution styled dark */
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.leaflet-control-zoom a {
+  background-color: #202722 !important;
+  color: #F5F2EA !important;
+  border: 1px solid #254D3B !important;
+  border-radius: 2px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+  margin-bottom: 2px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: #254D3B !important;
+  color: #F5F2EA !important;
+}
+
+.leaflet-control-attribution {
+  background-color: rgba(32, 39, 34, 0.9) !important;
+  color: #F5F2EA !important;
+  border: 1px solid #254D3B !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 2px !important;
+}
+
+.leaflet-control-attribution a {
+  color: #A7B99A !important;
+  text-decoration: none !important;
+}
+
+.leaflet-control-attribution a:hover {
+  text-decoration: underline !important;
+}
+
+/* Subtle scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F2EA;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8D2C4;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #20221F;
+}
