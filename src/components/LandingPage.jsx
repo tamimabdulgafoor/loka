@@ -5,36 +5,36 @@ export default function LandingPage({ onExploreMap, onOpenContribute, onOpenDeta
   const featured = (listings || []).filter(l => l.status === 'verified').slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[#F5F2EA] text-[#20221F]">
+    <div className="flex-1 bg-[#F5F2EA] text-[#20221F]">
       {/* Hero Section */}
-      <section className="border-b border-[#20221F] bg-[#F5F2EA] py-16 sm:py-24 px-6 text-center">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <div className="inline-block px-3 py-1 border border-[#B76E50] text-[#B76E50] text-[11px] uppercase tracking-widest font-sans font-semibold">
+      <section className="border-b border-[#DED5C5] bg-[#F5F2EA] py-12 md:py-24 px-4 sm:px-6 text-center">
+        <div className="max-w-4xl mx-auto space-y-6 flex flex-col items-center">
+          <div className="inline-block px-3 py-1 border border-[#DED5C5] text-[#B76E50] text-[11px] uppercase tracking-widest font-sans font-semibold rounded-[2px] bg-[#EAE6DC]/50">
             Thrissur District Cultural Cartography • Kerala
           </div>
 
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-normal text-[#20221F] tracking-tight">
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal text-[#20221F] tracking-tight leading-[1.1]">
             LOKA
           </h1>
 
-          <p className="font-serif italic text-2xl sm:text-3xl text-[#254D3B] max-w-2xl mx-auto leading-relaxed">
+          <p className="font-serif italic text-2xl sm:text-3xl text-[#254D3B] max-w-2xl mx-auto leading-[1.3]">
             &ldquo;Discover culture beyond the destination&rdquo;
           </p>
 
-          <p className="font-sans text-sm sm:text-base text-[#20221F]/80 max-w-xl mx-auto leading-relaxed pt-2">
+          <p className="font-sans text-base leading-[1.6] text-[#20221F]/80 max-w-[70ch] mx-auto pt-2">
             An open community-informed cultural map documenting Thrissur district&rsquo;s living traditions, temple architecture, percussion ensembles, classical theater, and heritage craft clusters.
           </p>
 
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
             <button
               onClick={onExploreMap}
-              className="px-6 py-3 bg-[#20221F] text-[#F5F2EA] text-xs font-sans font-semibold uppercase tracking-wider hover:bg-[#254D3B] transition-colors border border-[#20221F]"
+              className="w-full sm:w-auto px-8 py-3 min-h-[44px] bg-[#254D3B] text-[#F5F2EA] text-xs font-sans font-semibold uppercase tracking-wider hover:bg-[#1a372a] transition-colors border border-[#254D3B] rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] focus-visible:outline-offset-2 flex items-center justify-center shadow-none"
             >
               Explore Cultural Map →
             </button>
             <button
               onClick={onOpenContribute}
-              className="px-6 py-3 bg-transparent text-[#20221F] text-xs font-sans font-semibold uppercase tracking-wider hover:bg-[#EAE6DC] transition-colors border border-[#20221F]/40"
+              className="w-full sm:w-auto px-8 py-3 min-h-[44px] bg-transparent text-[#20221F] text-xs font-sans font-semibold uppercase tracking-wider hover:bg-[#EAE6DC] transition-colors border border-[#DED5C5] rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] focus-visible:outline-offset-2 flex items-center justify-center"
             >
               Contribute Listing
             </button>
@@ -44,19 +44,19 @@ export default function LandingPage({ onExploreMap, onOpenContribute, onOpenDeta
 
       {/* Featured Curated Records */}
       {featured.length > 0 && (
-        <section className="py-16 px-6 max-w-6xl mx-auto space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-[#20221F]/15 pb-4 gap-2">
+        <section className="py-12 md:py-16 px-4 sm:px-6 max-w-6xl mx-auto space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-[#DED5C5] pb-4 gap-2">
             <div>
               <div className="text-[11px] uppercase tracking-widest text-[#B76E50] font-sans font-semibold mb-1">
                 From the District Archive
               </div>
-              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#20221F]">
+              <h2 className="font-serif text-3xl font-normal text-[#20221F] leading-[1.25]">
                 Featured Cultural Sanctuaries
               </h2>
             </div>
             <button
               onClick={onExploreMap}
-              className="text-xs uppercase font-sans font-semibold text-[#254D3B] hover:text-[#20221F] underline"
+              className="text-xs uppercase font-sans font-semibold text-[#254D3B] hover:text-[#1a372a] underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] rounded-[2px] py-1"
             >
               View all on map →
             </button>
@@ -67,19 +67,55 @@ export default function LandingPage({ onExploreMap, onOpenContribute, onOpenDeta
               <div
                 key={item.id}
                 onClick={() => onOpenDetail ? onOpenDetail(item.id) : onExploreMap()}
-                className="border border-[#20221F]/20 p-5 bg-[#EAE6DC]/30 hover:bg-[#EAE6DC]/70 cursor-pointer transition-colors space-y-4 group flex flex-col justify-between"
+                className="border border-[#DED5C5] p-4 sm:p-6 bg-[#EAE6DC]/30 hover:bg-[#EAE6DC]/70 cursor-pointer transition-colors space-y-4 group flex flex-col justify-between rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    if (onOpenDetail) onOpenDetail(item.id);
+                    else onExploreMap();
+                  }
+                }}
               >
                 <div className="space-y-3">
-                  <div className="h-44 overflow-hidden border border-[#20221F]/10">
+                  {/* Fixed 4:3 Aspect Ratio for Featured Cards */}
+                  <div className="overflow-hidden border border-[#DED5C5] rounded-[2px]">
                     <ImageWithFallback
                       src={item.image_url}
                       alt={item.name}
-                      height="h-44"
+                      aspectRatio="aspect-[4/3]"
                     />
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] uppercase tracking-wider text-[#B76E50] font-semibold font-sans">
+                  {item.id === 'kathakali' && (
+                    <div className="text-[10px] italic text-[#20221F]/70 font-sans -mt-1">
+                      Illustrative photo of the art form.
+                    </div>
+                  )}
+
+                  {(item.image_credit || item.image_license) && (
+                    <div className="text-[10px] font-sans text-[#20221F]/60 truncate -mt-1">
+                      Photo: {item.image_credit}
+                      {item.image_credit && item.image_license ? ', ' : ''}
+                      {item.image_license && (
+                        item.image_source_url ? (
+                          <a
+                            href={item.image_source_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="underline hover:text-[#254D3B] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#254D3B]"
+                          >
+                            {item.image_license}
+                          </a>
+                        ) : (
+                          <span>{item.image_license}</span>
+                        )
+                      )}
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="text-[10px] uppercase tracking-wider text-[#B76E50] font-semibold font-sans px-2 py-0.5 border border-[#DED5C5] rounded-[2px] bg-[#EAE6DC]/50">
                       {item.type}
                     </span>
                     <span className="text-[#20221F]/30">•</span>
@@ -88,18 +124,18 @@ export default function LandingPage({ onExploreMap, onOpenContribute, onOpenDeta
                     </span>
                   </div>
 
-                  <h3 className="font-serif text-xl text-[#20221F] group-hover:text-[#254D3B] transition-colors leading-snug">
+                  <h3 className="font-serif text-2xl text-[#20221F] group-hover:text-[#254D3B] transition-colors leading-[1.25]">
                     {item.name}
                   </h3>
 
                   {item.description && (
-                    <p className="font-sans text-xs text-[#20221F]/70 line-clamp-3 leading-relaxed">
+                    <p className="font-sans text-sm text-[#20221F]/75 line-clamp-3 leading-[1.6]">
                       {item.description}
                     </p>
                   )}
                 </div>
 
-                <div className="pt-3 border-t border-[#20221F]/10 text-xs text-[#254D3B] font-semibold underline font-sans">
+                <div className="pt-3 border-t border-[#DED5C5] text-xs text-[#254D3B] font-semibold underline font-sans flex items-center gap-1 group-hover:text-[#1a372a]">
                   Read Cultural Story →
                 </div>
               </div>
@@ -107,14 +143,6 @@ export default function LandingPage({ onExploreMap, onOpenContribute, onOpenDeta
           </div>
         </section>
       )}
-
-      {/* Footer */}
-      <footer className="border-t border-[#20221F]/20 py-8 px-6 text-center text-xs font-sans text-[#20221F]/60">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span>LOKA — Thrissur District Cultural Cartography</span>
-          <span>OpenStreetMap &copy; contributors • CARTO • Esri</span>
-        </div>
-      </footer>
     </div>
   );
 }

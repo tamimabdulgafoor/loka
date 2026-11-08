@@ -8,11 +8,19 @@
     color: #20221F;
     background-color: #F5F2EA;
     -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
-  h1, h2, h3, h4, .font-serif {
+  h1, h2, h3, h4, h5, .font-serif {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-feature-settings: "liga" 1, "kern" 1;
+  }
+
+  /* Consistent visible focus outline on all interactive elements */
+  :focus-visible {
+    outline: 2px solid #254D3B !important;
+    outline-offset: 2px !important;
   }
 }
 

@@ -107,13 +107,13 @@ export default function AdminPage({ onNavigate }) {
   // 1. Password Gate View
   if (!isAuthenticated) {
     return (
-      <div className="min-h-[calc(100vh-70px)] bg-[#F5F2EA] text-[#20221F] flex items-center justify-center p-6">
-        <div className="max-w-md w-full border border-[#20221F] bg-[#F5F2EA] p-8 sm:p-10 space-y-6">
+      <div className="flex-1 bg-[#F5F2EA] text-[#20221F] flex items-center justify-center p-4 sm:p-6">
+        <div className="max-w-md w-full border border-[#DED5C5] bg-[#F5F2EA] p-8 sm:p-10 space-y-6 rounded-[2px]">
           <div className="text-center space-y-2">
-            <span className="text-[10px] uppercase tracking-widest text-[#B76E50] font-sans font-semibold">
+            <span className="text-[10px] uppercase tracking-widest text-[#B76E50] font-sans font-semibold px-2 py-0.5 border border-[#DED5C5] rounded-[2px] bg-[#EAE6DC]/50">
               Internal Curatorial Access
             </span>
-            <h1 className="font-serif text-3xl text-[#20221F] font-normal">
+            <h1 className="font-serif text-3xl text-[#20221F] font-normal leading-[1.2]">
               Admin Portal
             </h1>
             <p className="font-sans text-xs text-[#20221F]/70">
@@ -132,7 +132,7 @@ export default function AdminPage({ onNavigate }) {
                 placeholder="Enter admin password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-[#F5F2EA] border border-[#20221F]/30 text-[#20221F] focus:outline-none focus:border-[#20221F]"
+                className="w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border border-[#DED5C5] text-[#20221F] rounded-[2px] focus:outline-none focus:border-[#254D3B]"
               />
               {passwordError && (
                 <p className="text-[11px] text-[#B76E50] font-medium">{passwordError}</p>
@@ -141,14 +141,14 @@ export default function AdminPage({ onNavigate }) {
 
             <button
               type="submit"
-              className="w-full py-3 bg-[#20221F] text-[#F5F2EA] font-sans text-xs font-semibold uppercase tracking-wider hover:bg-[#254D3B] transition-colors"
+              className="w-full py-3 min-h-[44px] bg-[#254D3B] text-[#F5F2EA] font-sans text-xs font-semibold uppercase tracking-wider hover:bg-[#1a372a] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
             >
               Enter Curatorial Console →
             </button>
           </form>
 
           {/* Demo Note */}
-          <div className="p-3 bg-[#EAE6DC]/70 border-l-2 border-[#B76E50] text-[11px] font-sans text-[#20221F]/80 space-y-1">
+          <div className="p-3 bg-[#EAE6DC]/70 border-l-2 border-[#B76E50] text-[11px] font-sans text-[#20221F]/80 space-y-1 rounded-[2px]">
             <div className="font-semibold text-[#B76E50]">Demo only, not real security</div>
             <p>
               Demo password: <code className="font-mono bg-[#20221F]/10 px-1.5 py-0.5 font-bold text-[#20221F]">loka-admin</code>
@@ -158,7 +158,7 @@ export default function AdminPage({ onNavigate }) {
           <div className="text-center pt-2">
             <button
               onClick={() => onNavigate('/')}
-              className="text-xs font-sans text-[#20221F]/60 hover:text-[#20221F] underline"
+              className="text-xs font-sans text-[#20221F]/60 hover:text-[#20221F] underline py-1"
             >
               Return to Public Portal
             </button>
@@ -170,9 +170,9 @@ export default function AdminPage({ onNavigate }) {
 
   // 2. Admin Console View
   return (
-    <div className="min-h-screen bg-[#F5F2EA] text-[#20221F] pb-24">
+    <div className="flex-1 bg-[#F5F2EA] text-[#20221F] pb-16">
       {/* Top Banner */}
-      <div className="border-b border-[#20221F]/20 bg-[#EAE6DC]/60 px-6 py-4">
+      <div className="border-b border-[#DED5C5] bg-[#EAE6DC]/60 px-4 sm:px-6 py-4">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans">
           <div>
             <div className="flex items-center gap-2">
@@ -192,20 +192,20 @@ export default function AdminPage({ onNavigate }) {
           <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={handleResetData}
-              className="px-3 py-1.5 border border-[#B76E50] text-[#B76E50] text-xs font-semibold uppercase tracking-wider hover:bg-[#B76E50] hover:text-[#F5F2EA] transition-colors"
+              className="px-3 py-2 min-h-[38px] border border-[#B76E50] text-[#B76E50] text-xs font-semibold uppercase tracking-wider hover:bg-[#B76E50] hover:text-[#F5F2EA] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
               title="Clears all community submissions from localStorage"
             >
               Reset demo data
             </button>
             <button
               onClick={() => onNavigate('/map')}
-              className="px-3 py-1.5 border border-[#20221F]/30 text-[#20221F] text-xs font-medium hover:bg-[#20221F] hover:text-[#F5F2EA] transition-colors"
+              className="px-3 py-2 min-h-[38px] border border-[#DED5C5] text-[#20221F] text-xs font-medium hover:bg-[#EAE6DC] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
             >
               View Map
             </button>
             <button
               onClick={handleLogout}
-              className="px-3 py-1.5 bg-[#20221F] text-[#F5F2EA] text-xs font-medium uppercase tracking-wider hover:bg-[#B76E50] transition-colors"
+              className="px-3 py-2 min-h-[38px] bg-[#20221F] text-[#F5F2EA] text-xs font-medium uppercase tracking-wider hover:bg-[#B76E50] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
             >
               Logout
             </button>
@@ -213,19 +213,19 @@ export default function AdminPage({ onNavigate }) {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 pt-8 space-y-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 space-y-6">
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto border-b border-[#20221F]/20 pb-2 text-xs font-sans font-medium">
+        <div className="flex items-center gap-2 overflow-x-auto border-b border-[#DED5C5] pb-2 text-xs font-sans font-medium no-scrollbar">
           <button
             onClick={() => setActiveTab('pending')}
-            className={`px-4 py-2 border transition-colors flex items-center gap-2 ${
+            className={`px-4 py-2 border transition-colors flex items-center gap-2 rounded-[2px] min-h-[40px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] ${
               activeTab === 'pending'
                 ? 'bg-[#20221F] text-[#F5F2EA] border-[#20221F]'
-                : 'bg-[#F5F2EA] text-[#20221F] border-[#20221F]/20 hover:border-[#20221F]'
+                : 'bg-[#F5F2EA] text-[#20221F] border-[#DED5C5] hover:border-[#20221F]'
             }`}
           >
             <span>Pending</span>
-            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded ${
+            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded-[2px] ${
               activeTab === 'pending' ? 'bg-[#F5F2EA] text-[#20221F]' : 'bg-[#20221F]/10 text-[#20221F]'
             }`}>
               {counts.pending}
@@ -234,14 +234,14 @@ export default function AdminPage({ onNavigate }) {
 
           <button
             onClick={() => setActiveTab('approved')}
-            className={`px-4 py-2 border transition-colors flex items-center gap-2 ${
+            className={`px-4 py-2 border transition-colors flex items-center gap-2 rounded-[2px] min-h-[40px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] ${
               activeTab === 'approved'
                 ? 'bg-[#254D3B] text-[#F5F2EA] border-[#254D3B]'
-                : 'bg-[#F5F2EA] text-[#20221F] border-[#20221F]/20 hover:border-[#20221F]'
+                : 'bg-[#F5F2EA] text-[#20221F] border-[#DED5C5] hover:border-[#20221F]'
             }`}
           >
             <span>Approved</span>
-            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded ${
+            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded-[2px] ${
               activeTab === 'approved' ? 'bg-[#F5F2EA] text-[#254D3B]' : 'bg-[#20221F]/10 text-[#20221F]'
             }`}>
               {counts.approved}
@@ -250,14 +250,14 @@ export default function AdminPage({ onNavigate }) {
 
           <button
             onClick={() => setActiveTab('rejected')}
-            className={`px-4 py-2 border transition-colors flex items-center gap-2 ${
+            className={`px-4 py-2 border transition-colors flex items-center gap-2 rounded-[2px] min-h-[40px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] ${
               activeTab === 'rejected'
                 ? 'bg-[#B76E50] text-[#F5F2EA] border-[#B76E50]'
-                : 'bg-[#F5F2EA] text-[#20221F] border-[#20221F]/20 hover:border-[#20221F]'
+                : 'bg-[#F5F2EA] text-[#20221F] border-[#DED5C5] hover:border-[#20221F]'
             }`}
           >
             <span>Rejected</span>
-            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded ${
+            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded-[2px] ${
               activeTab === 'rejected' ? 'bg-[#F5F2EA] text-[#B76E50]' : 'bg-[#20221F]/10 text-[#20221F]'
             }`}>
               {counts.rejected}
@@ -266,14 +266,14 @@ export default function AdminPage({ onNavigate }) {
 
           <button
             onClick={() => setActiveTab('changes_requested')}
-            className={`px-4 py-2 border transition-colors flex items-center gap-2 ${
+            className={`px-4 py-2 border transition-colors flex items-center gap-2 rounded-[2px] min-h-[40px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] ${
               activeTab === 'changes_requested'
                 ? 'bg-amber-800 text-[#F5F2EA] border-amber-800'
-                : 'bg-[#F5F2EA] text-[#20221F] border-[#20221F]/20 hover:border-[#20221F]'
+                : 'bg-[#F5F2EA] text-[#20221F] border-[#DED5C5] hover:border-[#20221F]'
             }`}
           >
             <span>Changes Requested</span>
-            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded ${
+            <span className={`px-1.5 py-0.2 text-[10px] font-mono rounded-[2px] ${
               activeTab === 'changes_requested' ? 'bg-[#F5F2EA] text-amber-900' : 'bg-[#20221F]/10 text-[#20221F]'
             }`}>
               {counts.changes_requested}
@@ -284,8 +284,8 @@ export default function AdminPage({ onNavigate }) {
         {/* Action Reason Modal (for Reject & Request Changes) */}
         {actionItem && (
           <div className="fixed inset-0 bg-[#141816]/75 z-50 flex items-center justify-center p-4">
-            <div className="bg-[#F5F2EA] border border-[#20221F] max-w-lg w-full p-6 sm:p-8 space-y-4">
-              <div className="border-b border-[#20221F]/15 pb-3">
+            <div className="bg-[#F5F2EA] border border-[#DED5C5] max-w-lg w-full p-6 sm:p-8 space-y-4 rounded-[2px]">
+              <div className="border-b border-[#DED5C5] pb-3">
                 <span className="text-[10px] uppercase tracking-widest text-[#B76E50] font-sans font-semibold">
                   Required Curatorial Reason
                 </span>
@@ -312,7 +312,7 @@ export default function AdminPage({ onNavigate }) {
                     }
                     value={actionReason}
                     onChange={(e) => setActionReason(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-[#F5F2EA] border border-[#20221F]/30 text-[#20221F] focus:outline-none focus:border-[#20221F] leading-relaxed"
+                    className="w-full px-4 py-2.5 bg-[#F5F2EA] border border-[#DED5C5] text-[#20221F] rounded-[2px] focus:outline-none focus:border-[#254D3B] leading-relaxed"
                   />
                   {actionError && (
                     <p className="text-[11px] text-[#B76E50] font-medium">{actionError}</p>
@@ -323,13 +323,13 @@ export default function AdminPage({ onNavigate }) {
                   <button
                     type="button"
                     onClick={() => setActionItem(null)}
-                    className="px-4 py-2 border border-[#20221F]/30 text-[#20221F] text-xs font-semibold uppercase tracking-wider hover:bg-[#20221F]/10 transition-colors"
+                    className="px-4 py-2 min-h-[40px] border border-[#DED5C5] text-[#20221F] text-xs font-semibold uppercase tracking-wider hover:bg-[#EAE6DC] transition-colors rounded-[2px]"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className={`px-5 py-2 text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider transition-colors ${
+                    className={`px-5 py-2 min-h-[40px] text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider transition-colors rounded-[2px] ${
                       actionItem.type === 'reject'
                         ? 'bg-[#B76E50] hover:bg-[#8e4c34]'
                         : 'bg-amber-800 hover:bg-amber-900'
@@ -346,7 +346,7 @@ export default function AdminPage({ onNavigate }) {
         {/* Submissions List */}
         <div className="space-y-6">
           {filteredSubmissions.length === 0 ? (
-            <div className="p-16 border border-[#20221F]/20 text-center space-y-2 bg-[#EAE6DC]/30 font-sans">
+            <div className="p-16 border border-[#DED5C5] text-center space-y-2 bg-[#EAE6DC]/30 font-sans rounded-[2px]">
               <p className="font-serif text-2xl text-[#20221F]">
                 No entries in {activeTab.replace('_', ' ')}
               </p>
@@ -362,13 +362,13 @@ export default function AdminPage({ onNavigate }) {
               return (
                 <div
                   key={item.id}
-                  className="border border-[#20221F] bg-[#F5F2EA] p-6 space-y-6 transition-all"
+                  className="border border-[#DED5C5] bg-[#F5F2EA] p-6 space-y-6 transition-all rounded-[2px]"
                 >
                   {/* Card Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#20221F]/15 pb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DED5C5] pb-4">
                     <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-mono text-[11px] bg-[#20221F]/10 px-2 py-0.5 text-[#20221F]">
+                        <span className="font-mono text-[11px] bg-[#EAE6DC] px-2 py-0.5 text-[#20221F] border border-[#DED5C5] rounded-[2px]">
                           ID: {item.id}
                         </span>
                         <span className="text-xs uppercase tracking-wider font-semibold text-[#B76E50]">
@@ -396,7 +396,7 @@ export default function AdminPage({ onNavigate }) {
                     {/* Status Badge */}
                     <div className="self-start">
                       <span
-                        className={`inline-block px-3 py-1 text-xs uppercase tracking-wider font-semibold ${
+                        className={`inline-block px-3 py-1 text-xs uppercase tracking-wider font-semibold rounded-[2px] ${
                           item.status === 'approved'
                             ? 'bg-[#254D3B] text-[#F5F2EA]'
                             : item.status === 'rejected'
@@ -416,7 +416,7 @@ export default function AdminPage({ onNavigate }) {
                     {/* Column 1 & 2: Details */}
                     <div className="lg:col-span-2 space-y-4">
                       {/* Location & Coordinates */}
-                      <div className="p-3.5 bg-[#EAE6DC]/50 border border-[#20221F]/15 space-y-1.5">
+                      <div className="p-3.5 bg-[#EAE6DC]/50 border border-[#DED5C5] space-y-1.5 rounded-[2px]">
                         <div className="font-semibold uppercase tracking-wider text-[10px] text-[#20221F]/60">
                           Location & Geography:
                         </div>
@@ -439,7 +439,7 @@ export default function AdminPage({ onNavigate }) {
                       </div>
 
                       {/* Metadata row: source, email */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#20221F]/10">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#DED5C5]">
                         <div>
                           <div className="font-semibold uppercase tracking-wider text-[10px] text-[#20221F]/60">
                             Source Reference:
@@ -476,11 +476,11 @@ export default function AdminPage({ onNavigate }) {
                       <div className="font-semibold uppercase tracking-wider text-[10px] text-[#20221F]/60">
                         Photo Attachment:
                       </div>
-                      <div className="border border-[#20221F]/20 overflow-hidden h-40">
+                      <div className="border border-[#DED5C5] overflow-hidden rounded-[2px]">
                         <ImageWithFallback
                           src={item.image_url}
                           alt={item.name}
-                          height="h-40"
+                          aspectRatio="aspect-[4/3]"
                         />
                       </div>
                       {item.image_url && (
@@ -493,7 +493,7 @@ export default function AdminPage({ onNavigate }) {
 
                   {/* History Log */}
                   {Array.isArray(item.history) && item.history.length > 0 && (
-                    <div className="pt-3 border-t border-[#20221F]/15 space-y-2 font-sans">
+                    <div className="pt-3 border-t border-[#DED5C5] space-y-2 font-sans">
                       <div className="text-[10px] uppercase tracking-wider font-semibold text-[#20221F]/60">
                         Audit & Action History Log:
                       </div>
@@ -501,7 +501,7 @@ export default function AdminPage({ onNavigate }) {
                         {item.history.map((log, index) => (
                           <div
                             key={index}
-                            className="p-2.5 bg-[#EAE6DC]/40 border-l-2 border-[#20221F] text-xs flex flex-col sm:flex-row sm:items-baseline justify-between gap-1"
+                            className="p-2.5 bg-[#EAE6DC]/40 border-l-2 border-[#20221F] text-xs flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 rounded-[2px]"
                           >
                             <div>
                               <strong className="text-[#20221F] uppercase tracking-wider text-[10px] mr-2">
@@ -523,11 +523,11 @@ export default function AdminPage({ onNavigate }) {
                   )}
 
                   {/* Action Buttons: Approve, Reject, Request Changes */}
-                  <div className="pt-4 border-t border-[#20221F]/15 flex flex-wrap items-center gap-3 font-sans">
+                  <div className="pt-4 border-t border-[#DED5C5] flex flex-wrap items-center gap-3 font-sans">
                     {item.status !== 'approved' && (
                       <button
                         onClick={() => handleApprove(item)}
-                        className="px-4 py-2 bg-[#254D3B] text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider hover:bg-[#1c3a2c] transition-colors"
+                        className="px-4 py-2 min-h-[40px] bg-[#254D3B] text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider hover:bg-[#1a372a] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
                       >
                         ✓ Approve Submission
                       </button>
@@ -536,7 +536,7 @@ export default function AdminPage({ onNavigate }) {
                     {item.status !== 'rejected' && (
                       <button
                         onClick={() => openActionPrompt(item, 'reject')}
-                        className="px-4 py-2 bg-[#B76E50] text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider hover:bg-[#8e4c34] transition-colors"
+                        className="px-4 py-2 min-h-[40px] bg-[#B76E50] text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider hover:bg-[#8e4c34] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
                       >
                         ✕ Reject (Reason Required)
                       </button>
@@ -545,7 +545,7 @@ export default function AdminPage({ onNavigate }) {
                     {item.status !== 'changes_requested' && (
                       <button
                         onClick={() => openActionPrompt(item, 'changes_requested')}
-                        className="px-4 py-2 border border-[#20221F] text-[#20221F] hover:bg-[#20221F] hover:text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider transition-colors"
+                        className="px-4 py-2 min-h-[40px] border border-[#DED5C5] text-[#20221F] hover:bg-[#EAE6DC] text-xs font-semibold uppercase tracking-wider transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
                       >
                         ✎ Request Changes (Reason Required)
                       </button>

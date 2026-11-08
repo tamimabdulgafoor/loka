@@ -143,33 +143,33 @@ export default function ContributePage({ onNavigate }) {
   };
 
   return (
-    <div className="min-h-[calc(100vh-70px)] bg-[#F5F2EA] text-[#20221F] py-12 px-4 sm:px-6">
+    <div className="flex-1 bg-[#F5F2EA] text-[#20221F] py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto space-y-12">
         {/* Header Block */}
-        <div className="border-b border-[#20221F]/20 pb-6">
-          <div className="text-[11px] uppercase tracking-widest text-[#B76E50] font-sans font-semibold mb-2">
+        <div className="border-b border-[#DED5C5] pb-6 space-y-2">
+          <div className="inline-block px-2.5 py-0.5 border border-[#DED5C5] text-[11px] uppercase tracking-widest text-[#B76E50] font-sans font-semibold rounded-[2px] bg-[#EAE6DC]/50">
             Participatory Cartography • Thrissur District
           </div>
-          <h1 className="font-serif text-4xl sm:text-5xl text-[#20221F] font-normal tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl text-[#20221F] font-normal tracking-tight leading-[1.15]">
             Contribute a Cultural Listing
           </h1>
-          <p className="font-sans text-sm text-[#20221F]/75 max-w-2xl mt-2 leading-relaxed">
+          <p className="font-sans text-base leading-[1.6] text-[#20221F]/75 max-w-[70ch]">
             Document uncataloged sacred sites, folk rituals, percussion kalaries, and master artisan workshops. Every submission is reviewed by cultural editors before publishing with the community badge.
           </p>
         </div>
 
         {/* Section: Check My Submission Box */}
-        <section className="bg-[#EAE6DC]/60 border border-[#20221F]/25 p-6 sm:p-8 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#20221F]/15 pb-3">
+        <section className="bg-[#EAE6DC]/50 border border-[#DED5C5] p-6 sm:p-8 space-y-4 rounded-[2px]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#DED5C5] pb-3">
             <div>
-              <h2 className="font-serif text-2xl text-[#20221F] font-normal">
+              <h2 className="font-serif text-2xl text-[#20221F] font-normal leading-[1.25]">
                 Check My Submission
               </h2>
-              <p className="font-sans text-xs text-[#20221F]/70">
+              <p className="font-sans text-xs text-[#20221F]/70 mt-0.5">
                 Track the moderation status and editorial feedback for your contribution.
               </p>
             </div>
-            <span className="text-[11px] font-mono text-[#254D3B] uppercase tracking-wider bg-[#254D3B]/10 px-2 py-1 self-start sm:self-auto">
+            <span className="text-[10px] font-mono text-[#254D3B] uppercase tracking-wider bg-[#254D3B]/10 px-2 py-1 self-start sm:self-auto rounded-[2px] border border-[#254D3B]/20">
               Status Inquiry
             </span>
           </div>
@@ -180,33 +180,33 @@ export default function ContributePage({ onNavigate }) {
               placeholder="Enter submission ID (e.g., sub-m...)"
               value={lookupId}
               onChange={(e) => setLookupId(e.target.value)}
-              className="flex-1 px-3.5 py-2.5 bg-[#F5F2EA] border border-[#20221F]/30 text-[#20221F] placeholder-[#20221F]/40 font-mono text-xs focus:outline-none focus:border-[#20221F]"
+              className="flex-1 px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border border-[#DED5C5] text-[#20221F] placeholder-[#20221F]/40 font-mono text-xs rounded-[2px] focus:outline-none focus:border-[#254D3B]"
             />
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#20221F] text-[#F5F2EA] font-sans text-xs font-semibold uppercase tracking-wider hover:bg-[#254D3B] transition-colors"
+              className="px-6 py-2.5 min-h-[44px] bg-[#254D3B] text-[#F5F2EA] font-sans text-xs font-semibold uppercase tracking-wider hover:bg-[#1a372a] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
             >
               Check Status
             </button>
           </form>
 
           {lookupSearched && (
-            <div className="mt-4 pt-4 border-t border-[#20221F]/15">
+            <div className="mt-4 pt-4 border-t border-[#DED5C5]">
               {lookupResult ? (
-                <div className="bg-[#F5F2EA] border border-[#20221F]/20 p-4 space-y-3 font-sans text-xs">
+                <div className="bg-[#F5F2EA] border border-[#DED5C5] p-4 space-y-3 font-sans text-xs rounded-[2px]">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-serif text-lg font-semibold text-[#20221F]">
+                    <span className="font-serif text-xl font-semibold text-[#20221F]">
                       {lookupResult.name}
                     </span>
                     <span
-                      className={`px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-none ${
+                      className={`px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-[2px] ${
                         lookupResult.status === 'approved'
                           ? 'bg-[#254D3B] text-[#F5F2EA]'
                           : lookupResult.status === 'rejected'
                           ? 'bg-[#B76E50] text-[#F5F2EA]'
                           : lookupResult.status === 'changes_requested'
-                          ? 'bg-amber-700 text-[#F5F2EA]'
-                          : 'bg-[#20221F]/20 text-[#20221F]'
+                          ? 'bg-amber-800 text-[#F5F2EA]'
+                          : 'bg-[#20221F] text-[#F5F2EA]'
                       }`}
                     >
                       Status: {lookupResult.status.replace('_', ' ')}
@@ -222,16 +222,16 @@ export default function ContributePage({ onNavigate }) {
 
                   {/* Editorial Reasons & History */}
                   {Array.isArray(lookupResult.history) && lookupResult.history.length > 0 && (
-                    <div className="space-y-1.5 pt-2 border-t border-[#20221F]/10">
+                    <div className="space-y-1.5 pt-2 border-t border-[#DED5C5]">
                       <div className="text-[10px] uppercase tracking-wider font-semibold text-[#20221F]/60">
                         Editorial Log & Feedback:
                       </div>
                       <div className="space-y-1">
                         {lookupResult.history.map((h, i) => (
-                          <div key={i} className="p-2 bg-[#EAE6DC]/50 border-l-2 border-[#20221F]/40 text-[11px] leading-relaxed">
+                          <div key={i} className="p-2.5 bg-[#EAE6DC]/50 border-l-2 border-[#20221F] text-[11px] leading-relaxed rounded-[2px]">
                             <div className="flex items-center justify-between font-medium">
                               <span className="text-[#20221F]">{h.action}</span>
-                              <span className="text-[#20221F]/40 text-[10px]">{new Date(h.time).toLocaleString()}</span>
+                              <span className="text-[#20221F]/40 text-[10px] font-mono">{new Date(h.time).toLocaleString()}</span>
                             </div>
                             {h.reason && (
                               <div className="text-[#20221F]/80 mt-0.5">
@@ -256,7 +256,7 @@ export default function ContributePage({ onNavigate }) {
                   )}
                 </div>
               ) : (
-                <div className="p-4 bg-[#F5F2EA] border border-[#B76E50]/40 text-[#B76E50] text-xs font-sans">
+                <div className="p-4 bg-[#F5F2EA] border border-[#B76E50] text-[#B76E50] text-xs font-sans rounded-[2px]">
                   No submission found with ID &ldquo;{lookupId}&rdquo;. Please verify the identifier and try again.
                 </div>
               )}
@@ -266,7 +266,7 @@ export default function ContributePage({ onNavigate }) {
 
         {/* Success Banner if recently submitted */}
         {submittedItem && (
-          <div className="bg-[#254D3B]/10 border border-[#254D3B] p-6 space-y-3 font-sans">
+          <div className="bg-[#254D3B]/10 border border-[#254D3B] p-6 space-y-3 font-sans rounded-[2px]">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h3 className="font-serif text-2xl text-[#254D3B] font-medium">
@@ -278,20 +278,21 @@ export default function ContributePage({ onNavigate }) {
               </div>
               <button
                 onClick={() => setSubmittedItem(null)}
-                className="text-[#20221F]/50 hover:text-[#20221F] text-lg font-bold"
+                className="w-8 h-8 flex items-center justify-center text-[#20221F]/50 hover:text-[#20221F] text-lg font-bold rounded-[2px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#254D3B]"
+                aria-label="Close notification"
               >
                 ×
               </button>
             </div>
 
-            <div className="p-3 bg-[#F5F2EA] border border-[#254D3B]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="p-3 bg-[#F5F2EA] border border-[#DED5C5] flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-[2px]">
               <div className="text-xs">
                 <span className="text-[#20221F]/60">Your Submission ID: </span>
                 <strong className="font-mono text-sm text-[#20221F]">{submittedItem.id}</strong>
               </div>
               <button
                 onClick={() => handleCopyId(submittedItem.id)}
-                className="px-3 py-1 bg-[#254D3B] text-[#F5F2EA] text-[11px] font-semibold uppercase tracking-wider hover:bg-[#20221F] transition-colors self-start sm:self-auto"
+                className="px-4 py-2 min-h-[36px] bg-[#254D3B] text-[#F5F2EA] text-[11px] font-semibold uppercase tracking-wider hover:bg-[#1a372a] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#254D3B]"
               >
                 {isCopied ? 'Copied!' : 'Copy ID'}
               </button>
@@ -303,9 +304,9 @@ export default function ContributePage({ onNavigate }) {
         )}
 
         {/* Section: Main Contribution Form */}
-        <section className="bg-[#F5F2EA] border border-[#20221F] p-6 sm:p-10 space-y-8">
+        <section className="bg-[#F5F2EA] border border-[#DED5C5] p-6 sm:p-10 space-y-8 rounded-[2px]">
           <div>
-            <h2 className="font-serif text-3xl text-[#20221F] font-normal">
+            <h2 className="font-serif text-3xl text-[#20221F] font-normal leading-[1.25]">
               Cultural Listing Submission Form
             </h2>
             <p className="font-sans text-xs text-[#20221F]/60 mt-1">
@@ -325,8 +326,8 @@ export default function ContributePage({ onNavigate }) {
                 placeholder="e.g., Arattupuzha Pooram or Peruvanam Temple"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className={`w-full px-3.5 py-2.5 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 focus:outline-none ${
-                  errors.name ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                className={`w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none ${
+                  errors.name ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                 }`}
               />
               {errors.name && (
@@ -345,8 +346,8 @@ export default function ContributePage({ onNavigate }) {
                   id="input-type"
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className={`w-full px-3.5 py-2.5 bg-[#F5F2EA] border text-[#20221F] focus:outline-none ${
-                    errors.type ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                  className={`w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] rounded-[2px] focus:outline-none ${
+                    errors.type ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                   }`}
                 >
                   {CULTURAL_TYPES.map(t => (
@@ -369,7 +370,7 @@ export default function ContributePage({ onNavigate }) {
                   placeholder="e.g., Panchavadyam, Mural Painting, Bronze Casting"
                   value={formData.art_form}
                   onChange={(e) => setFormData({ ...formData, art_form: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#F5F2EA] border border-[#20221F]/30 text-[#20221F] placeholder-[#20221F]/40 focus:outline-none focus:border-[#20221F]"
+                  className="w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border border-[#DED5C5] text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none focus:border-[#254D3B]"
                 />
               </div>
             </div>
@@ -385,8 +386,8 @@ export default function ContributePage({ onNavigate }) {
                 placeholder="Village, Panchayat, landmark, or street address in Thrissur district"
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                className={`w-full px-3.5 py-2.5 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 focus:outline-none ${
-                  errors.location ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                className={`w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none ${
+                  errors.location ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                 }`}
               />
               {errors.location && (
@@ -395,7 +396,7 @@ export default function ContributePage({ onNavigate }) {
             </div>
 
             {/* Optional Coordinates (Lat / Lng) */}
-            <div className="p-4 bg-[#EAE6DC]/40 border border-[#20221F]/15 space-y-3">
+            <div className="p-4 bg-[#EAE6DC]/40 border border-[#DED5C5] space-y-3 rounded-[2px]">
               <div className="flex items-center justify-between">
                 <span className="uppercase tracking-wider font-semibold text-[#20221F]/70 text-[10px]">
                   Geographic Coordinates (Optional)
@@ -416,8 +417,8 @@ export default function ContributePage({ onNavigate }) {
                     placeholder="10.52..."
                     value={formData.lat}
                     onChange={(e) => setFormData({ ...formData, lat: e.target.value })}
-                    className={`w-full px-3 py-2 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 font-mono text-xs focus:outline-none ${
-                      errors.lat ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                    className={`w-full px-3.5 py-2 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 font-mono text-xs rounded-[2px] focus:outline-none ${
+                      errors.lat ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                     }`}
                   />
                   {errors.lat && (
@@ -435,8 +436,8 @@ export default function ContributePage({ onNavigate }) {
                     placeholder="76.21..."
                     value={formData.lng}
                     onChange={(e) => setFormData({ ...formData, lng: e.target.value })}
-                    className={`w-full px-3 py-2 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 font-mono text-xs focus:outline-none ${
-                      errors.lng ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                    className={`w-full px-3.5 py-2 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 font-mono text-xs rounded-[2px] focus:outline-none ${
+                      errors.lng ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                     }`}
                   />
                   {errors.lng && (
@@ -457,8 +458,8 @@ export default function ContributePage({ onNavigate }) {
                 placeholder="Provide a detailed description of the site, historic lineage, artisan tradition, or ritual significance..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className={`w-full px-3.5 py-2.5 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 focus:outline-none leading-relaxed ${
-                  errors.description ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                className={`w-full px-4 py-2.5 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none leading-relaxed ${
+                  errors.description ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                 }`}
               />
               {errors.description && (
@@ -479,8 +480,8 @@ export default function ContributePage({ onNavigate }) {
                   placeholder="https://..."
                   value={formData.source_url}
                   onChange={(e) => setFormData({ ...formData, source_url: e.target.value })}
-                  className={`w-full px-3.5 py-2.5 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 focus:outline-none ${
-                    errors.source_url ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                  className={`w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none ${
+                    errors.source_url ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                   }`}
                 />
                 {errors.source_url && (
@@ -499,8 +500,8 @@ export default function ContributePage({ onNavigate }) {
                   placeholder="https://...jpg"
                   value={formData.image_url}
                   onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  className={`w-full px-3.5 py-2.5 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 focus:outline-none ${
-                    errors.image_url ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                  className={`w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none ${
+                    errors.image_url ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                   }`}
                 />
                 {errors.image_url && (
@@ -520,8 +521,8 @@ export default function ContributePage({ onNavigate }) {
                 placeholder="your.email@example.com (used only if editors need to reach you)"
                 value={formData.contact_email}
                 onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
-                className={`w-full px-3.5 py-2.5 bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 focus:outline-none ${
-                  errors.contact_email ? 'border-[#B76E50]' : 'border-[#20221F]/30 focus:border-[#20221F]'
+                className={`w-full px-4 py-2.5 min-h-[44px] bg-[#F5F2EA] border text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none ${
+                  errors.contact_email ? 'border-[#B76E50]' : 'border-[#DED5C5] focus:border-[#254D3B]'
                 }`}
               />
               {errors.contact_email && (
@@ -530,10 +531,10 @@ export default function ContributePage({ onNavigate }) {
             </div>
 
             {/* Submit Action */}
-            <div className="pt-4 border-t border-[#20221F]/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="pt-4 border-t border-[#DED5C5] flex flex-col sm:flex-row items-center justify-between gap-4">
               <button
                 type="submit"
-                className="w-full sm:w-auto px-8 py-3.5 bg-[#20221F] text-[#F5F2EA] font-sans text-xs font-semibold uppercase tracking-wider hover:bg-[#254D3B] transition-colors"
+                className="w-full sm:w-auto px-8 py-3.5 min-h-[44px] bg-[#254D3B] text-[#F5F2EA] font-sans text-xs font-semibold uppercase tracking-wider hover:bg-[#1a372a] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] flex items-center justify-center"
               >
                 Submit Cultural Listing →
               </button>
@@ -541,7 +542,7 @@ export default function ContributePage({ onNavigate }) {
               <button
                 type="button"
                 onClick={() => onNavigate('/map')}
-                className="text-xs font-sans text-[#20221F]/60 hover:text-[#20221F] underline"
+                className="text-xs font-sans text-[#20221F]/60 hover:text-[#20221F] underline py-2 rounded-[2px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#254D3B]"
               >
                 Cancel and return to map
               </button>

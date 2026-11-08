@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
 import MapExplorer from './components/MapExplorer';
 import ListingDetailPage from './components/ListingDetailPage';
 import ContributePage from './components/ContributePage';
 import AdminPage from './components/AdminPage';
+import NotFoundPage from './components/NotFoundPage';
 import rawListingsData from './data/listings.json';
 import { getApprovedCommunityListings } from './utils/submissionsStorage';
 
@@ -21,10 +23,11 @@ export default function App() {
       const id = path.replace('/listing/', '').trim();
       return { route: '/listing/:id', id, path };
     }
-    if (path === '/map') return { route: '/map', id: null, path };
-    if (path === '/contribute') return { route: '/contribute', id: null, path };
-    if (path === '/admin') return { route: '/admin', id: null, path };
-    return { route: '/', id: null, path: '/' };
+    if (path === '/' || path === '') return { route: '/', id: null, path: '/' };
+    if (path === '/map') return { route: '/map', id: null, path: '/map' };
+    if (path === '/contribute') return { route: '/contribute', id: null, path: '/contribute' };
+    if (path === '/admin') return { route: '/admin', id: null, path: '/admin' };
+    return { route: '404', id: null, path };
   };
 
   const [currentLoc, setCurrentLoc] = useState(parseCurrentLocation);
@@ -59,6 +62,24 @@ export default function App() {
     return [...rawListingsData, ...approvedSubmissions];
   }, [approvedSubmissions]);
 
+  // Reactive page document title based on route and listing data
+  useEffect(() => {
+    if (currentLoc.route === '/') {
+      document.title = 'LOKA — Thrissur Cultural Map';
+    } else if (currentLoc.route === '/map') {
+      document.title = 'Explore Cultural Map — LOKA';
+    } else if (currentLoc.route === '/contribute') {
+      document.title = 'Contribute a Cultural Listing — LOKA';
+    } else if (currentLoc.route === '/admin') {
+      document.title = 'Curatorial Admin Console — LOKA';
+    } else if (currentLoc.route === '/listing/:id') {
+      const match = combinedListings.find(l => l.id === currentLoc.id);
+      document.title = match ? `${match.name} — LOKA` : 'Listing Not Found — LOKA';
+    } else {
+      document.title = 'Page Not Found — LOKA';
+    }
+  }, [currentLoc, combinedListings]);
+
   useEffect(() => {
     const handlePopState = () => {
       setCurrentLoc(parseCurrentLocation());
@@ -85,8 +106,10 @@ export default function App() {
     navigateTo('/map');
   };
 
+  const isPublicPage = currentLoc.route !== '/admin';
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#F5F2EA] text-[#20221F] selection:bg-[#A7B99A]/30">
+    <div className="min-h-screen flex flex-col bg-[#F5F2EA] text-[#20221F] selection:bg-[#254D3B]/20">
       {/* Simple Top Bar on All Pages (No Admin link in public nav) */}
       <Navbar
         currentRoute={currentLoc.path}
@@ -94,7 +117,7 @@ export default function App() {
       />
 
       {/* Main Route Content */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col min-h-0">
         {currentLoc.route === '/' && (
           <LandingPage
             onExploreMap={() => navigateTo('/map')}
@@ -134,7 +157,16 @@ export default function App() {
             onNavigate={navigateTo}
           />
         )}
+
+        {currentLoc.route === '404' && (
+          <NotFoundPage
+            onNavigate={navigateTo}
+          />
+        )}
       </main>
+
+      {/* Editorial Footer on all public pages (never links to /admin) */}
+      {isPublicPage && <Footer />}
     </div>
   );
 }

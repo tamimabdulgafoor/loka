@@ -69,8 +69,11 @@ function createMarkerIcon(L, isVerified, isSelected) {
   });
 }
 
-function bindMarkerTooltip(marker, name, zoom) {
+function bindMarkerTooltip(marker, item, zoom) {
   marker.unbindTooltip();
+  const name = typeof item === 'string' ? item : item?.name || '';
+  const imageUrl = typeof item === 'object' ? item?.image_url : '';
+
   if (zoom >= 12) {
     marker.bindTooltip(name, {
       permanent: true,
@@ -80,7 +83,20 @@ function bindMarkerTooltip(marker, name, zoom) {
       opacity: 1
     });
   } else {
-    marker.bindTooltip(name, {
+    const tooltipContent = imageUrl ? `
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <img 
+          src="${imageUrl}" 
+          alt="${name}" 
+          loading="lazy" 
+          style="width: 28px; height: 28px; object-fit: cover; border-radius: 2px; flex-shrink: 0;" 
+          onerror="this.style.display='none';"
+        />
+        <span>${name}</span>
+      </div>
+    ` : name;
+
+    marker.bindTooltip(tooltipContent, {
       permanent: false,
       direction: 'top',
       offset: [0, -8],
@@ -309,7 +325,7 @@ export default function MapExplorer({
       markerLookupRef.current.forEach((marker, id) => {
         const item = publicListings.find(l => l.id === id);
         if (item) {
-          bindMarkerTooltip(marker, item.name, currentZoom);
+          bindMarkerTooltip(marker, item, currentZoom);
         }
       });
     });
@@ -353,12 +369,36 @@ export default function MapExplorer({
       const marker = L.marker([Number(item.lat), Number(item.lng)], { icon });
 
       // Apply zoom-dependent tooltip / label
-      bindMarkerTooltip(marker, item.name, currentZoom);
+      bindMarkerTooltip(marker, item, currentZoom);
 
       // Popup with dark theme matching map aesthetic
       const badgeColor = isVerified ? '#A7B99A' : '#B76E50';
+      const imgHtml = item.image_url ? `
+        <div style="width: 100%; height: 110px; overflow: hidden; margin-bottom: 8px; background: #141816; border: 1px solid rgba(245, 242, 234, 0.15);">
+          <img 
+            src="${item.image_url}" 
+            alt="${item.name}" 
+            loading="lazy"
+            style="width: 100%; height: 100%; object-fit: cover; display: block;" 
+            onerror="this.onerror=null; this.parentElement.style.display='none';"
+          />
+        </div>
+      ` : '';
+      const kathakaliNote = item.id === 'kathakali' ? `
+        <div style="font-size: 8px; font-style: italic; color: #A7B99A; opacity: 0.9; margin-top: -4px; margin-bottom: 4px;">
+          Illustrative photo of the art form.
+        </div>
+      ` : '';
+      const creditHtml = (item.image_credit || item.image_license) ? `
+        <div style="font-size: 8px; color: #A7B99A; opacity: 0.75; margin-bottom: 6px; line-height: 1.2;">
+          Photo: ${item.image_credit || ''}${item.image_credit && item.image_license ? ', ' : ''}${item.image_license ? (item.image_source_url ? `<a href="${item.image_source_url}" target="_blank" rel="noopener noreferrer" style="color: #A7B99A; text-decoration: underline;">${item.image_license}</a>` : item.image_license) : ''}
+        </div>
+      ` : '';
       const popupHtml = `
         <div style="width: 220px; font-family: 'DM Sans', sans-serif; padding: 12px; background: #202722; color: #F5F2EA;">
+          ${imgHtml}
+          ${kathakaliNote}
+          ${creditHtml}
           <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: ${badgeColor}; font-weight: 700; margin-bottom: 2px;">
             ${item.type} • ${item.status}
           </div>
@@ -459,9 +499,9 @@ export default function MapExplorer({
   const typesList = ['all', 'place', 'festival', 'performance', 'craft', 'artist'];
 
   return (
-    <div className="flex flex-col flex-1 bg-[#F5F2EA] text-[#20221F]">
+    <div className="flex flex-col flex-1 bg-[#F5F2EA] text-[#20221F] overflow-x-hidden">
       {/* Search & Comprehensive Filters Bar */}
-      <div className="border-b border-[#20221F]/20 bg-[#EAE6DC]/60 px-6 py-3">
+      <div className="border-b border-[#DED5C5] bg-[#EAE6DC]/60 px-4 sm:px-6 py-3.5">
         <div className="max-w-7xl mx-auto flex flex-col gap-3">
           {/* Top Row: Search input + Controls */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-sans">
@@ -472,12 +512,13 @@ export default function MapExplorer({
                 placeholder="Search name, art form, description, significance..."
                 value={searchQuery}
                 onChange={(e) => updateFilters({ searchQuery: e.target.value })}
-                className="w-full px-3 py-2 bg-[#F5F2EA] border border-[#20221F]/40 text-[#20221F] placeholder-[#20221F]/40 focus:outline-none focus:border-[#20221F]"
+                className="w-full px-3.5 py-2.5 min-h-[44px] bg-[#F5F2EA] border border-[#DED5C5] text-[#20221F] placeholder-[#20221F]/40 rounded-[2px] focus:outline-none focus:border-[#254D3B] text-xs transition-colors"
               />
               {searchQuery && (
                 <button
                   onClick={() => updateFilters({ searchQuery: '' })}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#20221F]/50 hover:text-[#20221F] text-base"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-[#20221F]/50 hover:text-[#20221F] text-lg rounded-[2px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#254D3B]"
+                  aria-label="Clear search input"
                 >
                   ×
                 </button>
@@ -485,11 +526,11 @@ export default function MapExplorer({
             </div>
 
             {/* Clear filters button and Fit District */}
-            <div className="flex items-center gap-2.5 self-end sm:self-auto">
+            <div className="flex items-center gap-2 self-end sm:self-auto">
               {hasActiveFilters && (
                 <button
                   onClick={handleClearFilters}
-                  className="px-2.5 py-1.5 bg-[#20221F]/10 hover:bg-[#20221F] hover:text-[#F5F2EA] border border-[#20221F]/30 text-[#20221F] transition-colors font-medium text-[11px]"
+                  className="px-3 py-2 min-h-[44px] sm:min-h-[38px] bg-transparent hover:bg-[#20221F] hover:text-[#F5F2EA] border border-[#DED5C5] text-[#20221F] transition-colors font-medium text-[11px] uppercase tracking-wider rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
                 >
                   Clear filters
                 </button>
@@ -497,7 +538,7 @@ export default function MapExplorer({
 
               <button
                 onClick={handleFitDistrict}
-                className="px-2.5 py-1.5 border border-[#20221F] text-[#20221F] hover:bg-[#20221F] hover:text-[#F5F2EA] transition-colors text-[11px] font-medium"
+                className="px-3.5 py-2 min-h-[44px] sm:min-h-[38px] border border-[#254D3B] bg-transparent text-[#254D3B] hover:bg-[#254D3B] hover:text-[#F5F2EA] transition-colors text-[11px] font-semibold uppercase tracking-wider rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
               >
                 Fit District
               </button>
@@ -505,20 +546,20 @@ export default function MapExplorer({
           </div>
 
           {/* Bottom Row: Type Buttons, Art Form Dropdown, Date/Season Filter */}
-          <div className="flex flex-wrap items-center gap-3 text-xs font-sans pt-1 border-t border-[#20221F]/10">
-            {/* Type Buttons: All, Place, Festival, Performance, Craft, Artist */}
-            <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0">
-              <span className="text-[10px] uppercase tracking-wider text-[#20221F]/50 mr-1 font-semibold">
+          <div className="flex flex-wrap items-center gap-3 text-xs font-sans pt-2 border-t border-[#DED5C5]">
+            {/* Type Buttons: All, Place, Festival, Performance, Craft, Artist (Horizontally scrollable on mobile) */}
+            <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 sm:pb-0 no-scrollbar">
+              <span className="text-[10px] uppercase tracking-wider text-[#20221F]/50 mr-1 font-semibold whitespace-nowrap">
                 Type:
               </span>
               {typesList.map(t => (
                 <button
                   key={t}
                   onClick={() => updateFilters({ selectedType: t })}
-                  className={`px-2.5 py-1 capitalize font-medium transition-colors border text-[11px] ${
+                  className={`px-3 py-1.5 capitalize font-medium transition-colors border text-[11px] rounded-[2px] whitespace-nowrap min-h-[36px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] ${
                     selectedType.toLowerCase() === t.toLowerCase()
                       ? 'bg-[#20221F] text-[#F5F2EA] border-[#20221F]'
-                      : 'bg-[#F5F2EA] text-[#20221F] border-[#20221F]/20 hover:border-[#20221F]'
+                      : 'bg-[#F5F2EA] text-[#20221F] border-[#DED5C5] hover:border-[#20221F] hover:bg-[#EAE6DC]'
                   }`}
                 >
                   {t}
@@ -528,14 +569,14 @@ export default function MapExplorer({
 
             {/* Art Form Dropdown built dynamically from listings */}
             <div className="flex items-center gap-1.5">
-              <label htmlFor="art-form-select" className="text-[10px] uppercase tracking-wider text-[#20221F]/50 font-semibold">
+              <label htmlFor="art-form-select" className="text-[10px] uppercase tracking-wider text-[#20221F]/50 font-semibold whitespace-nowrap">
                 Art Form:
               </label>
               <select
                 id="art-form-select"
                 value={selectedArtForm}
                 onChange={(e) => updateFilters({ selectedArtForm: e.target.value })}
-                className="px-2.5 py-1 bg-[#F5F2EA] border border-[#20221F]/30 text-[#20221F] text-[11px] focus:outline-none focus:border-[#20221F]"
+                className="px-2.5 py-1.5 min-h-[36px] bg-[#F5F2EA] border border-[#DED5C5] text-[#20221F] text-[11px] rounded-[2px] focus:outline-none focus:border-[#254D3B] transition-colors"
               >
                 <option value="all">All Art Forms</option>
                 {artFormOptions.map(af => (
@@ -546,14 +587,14 @@ export default function MapExplorer({
 
             {/* Date/Season Filter: All, Has a known season, Date unconfirmed */}
             <div className="flex items-center gap-1.5">
-              <label htmlFor="date-season-select" className="text-[10px] uppercase tracking-wider text-[#20221F]/50 font-semibold">
+              <label htmlFor="date-season-select" className="text-[10px] uppercase tracking-wider text-[#20221F]/50 font-semibold whitespace-nowrap">
                 Season:
               </label>
               <select
                 id="date-season-select"
                 value={dateFilter}
                 onChange={(e) => updateFilters({ dateFilter: e.target.value })}
-                className="px-2.5 py-1 bg-[#F5F2EA] border border-[#20221F]/30 text-[#20221F] text-[11px] focus:outline-none focus:border-[#20221F]"
+                className="px-2.5 py-1.5 min-h-[36px] bg-[#F5F2EA] border border-[#DED5C5] text-[#20221F] text-[11px] rounded-[2px] focus:outline-none focus:border-[#254D3B] transition-colors"
               >
                 <option value="all">All Seasons</option>
                 <option value="known">Has a known season</option>
@@ -564,34 +605,52 @@ export default function MapExplorer({
         </div>
       </div>
 
-      {/* Split Main View: List + Map */}
-      <div className="flex-1 flex flex-col-reverse lg:flex-row relative">
-        {/* Listing Directory Panel */}
-        <aside className="w-full lg:w-[420px] xl:w-[450px] bg-[#F5F2EA] border-t lg:border-t-0 lg:border-r border-[#20221F] flex flex-col h-[500px] lg:h-[calc(100vh-130px)] z-10">
-          <div className="p-3 border-b border-[#20221F]/15 flex items-center justify-between text-xs font-sans text-[#20221F]/60">
+      {/* Main Split View:
+          Mobile (<768px): Map stacked on top (~55vh), List below!
+          Desktop (>=768px): List on left, Map on right!
+      */}
+      <div className="flex-1 flex flex-col md:flex-row relative min-h-0">
+        {/* Map Canvas (Order 1 on mobile ~55vh, Order 2 on desktop) */}
+        <div className="order-1 md:order-2 flex-1 relative h-[55vh] md:h-auto min-h-[350px] md:min-h-0 bg-[#141816] border-b md:border-b-0 md:border-l border-[#254D3B] overflow-hidden">
+          <div ref={mapContainerRef} className="w-full h-full bg-[#141816]" />
+
+          {/* Bottom-left Editorial Framing (no box, no shadow) */}
+          <div className="absolute bottom-6 left-6 z-[400] pointer-events-none select-none">
+            <div className="font-serif text-[28px] leading-none text-[#F5F2EA] font-normal tracking-wide">
+              Thrissur District
+            </div>
+            <div className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#A7B99A] font-semibold mt-1">
+              Kerala
+            </div>
+          </div>
+        </div>
+
+        {/* Listing Directory Panel (Order 2 on mobile below map, Order 1 on desktop on left) */}
+        <aside className="order-2 md:order-1 w-full md:w-[400px] lg:w-[440px] bg-[#F5F2EA] border-t md:border-t-0 md:border-r border-[#DED5C5] flex flex-col h-[520px] md:h-auto z-10">
+          <div className="p-3.5 border-b border-[#DED5C5] flex items-center justify-between text-xs font-sans text-[#20221F]/70 bg-[#EAE6DC]/30">
             <span>
-              Showing <strong className="text-[#20221F]">{filteredListings.length}</strong> public listings
+              Showing <strong className="text-[#20221F] font-semibold">{filteredListings.length}</strong> public listings
             </span>
-            <span className="text-[11px]">
-              Click entry to pan & inspect
+            <span className="text-[11px] text-[#20221F]/50">
+              Click to inspect
             </span>
           </div>
 
-          <div className="flex-1 overflow-y-auto divide-y divide-[#20221F]/15">
+          <div className="flex-1 overflow-y-auto divide-y divide-[#DED5C5]">
             {isLoading ? (
               <div className="p-12 text-center space-y-3 font-sans">
-                <div className="inline-block w-6 h-6 border-2 border-[#20221F] border-t-transparent rounded-full animate-spin"></div>
+                <div className="inline-block w-6 h-6 border-2 border-[#254D3B] border-t-transparent rounded-full animate-spin"></div>
                 <p className="text-xs text-[#20221F]/60">Loading cultural archive...</p>
               </div>
             ) : filteredListings.length === 0 ? (
-              <div className="p-10 text-center space-y-4 font-sans">
-                <p className="font-serif text-xl text-[#20221F]">No listings match your search</p>
-                <p className="text-xs text-[#20221F]/60 max-w-xs mx-auto leading-relaxed">
+              <div className="p-8 sm:p-10 text-center space-y-4 font-sans">
+                <p className="font-serif text-2xl text-[#20221F]">No listings match your search</p>
+                <p className="text-xs text-[#20221F]/70 max-w-xs mx-auto leading-relaxed">
                   Try adjusting keywords or reset your filters to browse the complete directory.
                 </p>
                 <button
                   onClick={handleClearFilters}
-                  className="px-3.5 py-1.5 bg-[#20221F] text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider hover:bg-[#254D3B] transition-colors"
+                  className="px-4 py-2 min-h-[44px] bg-[#254D3B] text-[#F5F2EA] text-xs font-semibold uppercase tracking-wider hover:bg-[#1a372a] transition-colors rounded-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B]"
                 >
                   Clear filters
                 </button>
@@ -607,26 +666,30 @@ export default function MapExplorer({
                     id={`listing-card-${item.id}`}
                     key={item.id}
                     onClick={() => handleListingClick(item)}
-                    className={`p-4 transition-colors cursor-pointer text-left ${
+                    className={`p-4 transition-colors cursor-pointer text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#254D3B] ${
                       isSelected
-                        ? 'bg-[#EAE6DC] border-l-4 border-l-[#20221F]'
-                        : 'hover:bg-[#EAE6DC]/50'
+                        ? 'bg-[#EAE6DC] border-l-4 border-l-[#254D3B]'
+                        : 'hover:bg-[#EAE6DC]/60'
                     }`}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleListingClick(item);
+                    }}
                   >
-                    <div className="flex gap-3.5">
-                      {/* Thumbnail or neutral placeholder */}
-                      <div className="w-16 h-16 flex-shrink-0">
+                    <div className="flex gap-3.5 items-start">
+                      {/* Fixed 4:3 Aspect Ratio Thumbnail */}
+                      <div className="w-24 sm:w-28 flex-shrink-0">
                         <ImageWithFallback
                           src={item.image_url}
                           alt={item.name}
-                          height="h-16"
-                          className="border border-[#20221F]/20"
+                          aspectRatio="aspect-[4/3]"
+                          className="border border-[#DED5C5]"
                         />
                       </div>
 
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[10px] uppercase tracking-wider font-sans font-semibold text-[#B76E50]">
+                      <div className="flex-1 min-w-0 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] uppercase tracking-wider font-sans font-semibold text-[#B76E50] px-1.5 py-0.5 border border-[#DED5C5] rounded-[2px] bg-[#EAE6DC]/50">
                             {item.type}
                           </span>
                           <span className="text-[#20221F]/30">•</span>
@@ -636,29 +699,29 @@ export default function MapExplorer({
                             {item.status}
                           </span>
                           {!hasCoords && (
-                            <span className="ml-auto text-[9px] font-sans text-[#20221F]/50 border border-[#20221F]/20 px-1">
+                            <span className="ml-auto text-[9px] font-sans text-[#20221F]/50 border border-[#DED5C5] px-1 rounded-[2px]">
                               Unpinned
                             </span>
                           )}
                         </div>
 
-                        <h3 className="font-serif text-base leading-tight text-[#20221F] truncate font-normal">
+                        <h3 className="font-serif text-lg leading-tight text-[#20221F] truncate font-normal">
                           {item.name}
                         </h3>
 
                         {item.art_form && (
-                          <div className="text-xs font-sans text-[#254D3B] mt-0.5 truncate">
+                          <div className="text-xs font-sans text-[#254D3B] truncate">
                             {item.art_form}
                           </div>
                         )}
 
                         {item.description && (
-                          <p className="text-xs text-[#20221F]/70 font-sans mt-1 line-clamp-2 leading-relaxed">
+                          <p className="text-xs text-[#20221F]/70 font-sans line-clamp-2 leading-relaxed">
                             {item.description}
                           </p>
                         )}
 
-                        <div className="mt-2.5 flex items-center justify-between">
+                        <div className="pt-1.5 flex items-center justify-between">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -666,7 +729,7 @@ export default function MapExplorer({
                                 onOpenDetail(item.id);
                               }
                             }}
-                            className="text-[11px] uppercase font-sans font-semibold text-[#254D3B] hover:text-[#20221F] underline"
+                            className="text-[11px] uppercase font-sans font-semibold text-[#254D3B] hover:text-[#1a372a] underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#254D3B] rounded-[2px] py-0.5"
                           >
                             View full details →
                           </button>
@@ -679,21 +742,6 @@ export default function MapExplorer({
             )}
           </div>
         </aside>
-
-        {/* Map Canvas with 1px #254D3B border */}
-        <div className="flex-1 relative min-h-[420px] lg:min-h-0 bg-[#141816] border border-[#254D3B] overflow-hidden">
-          <div ref={mapContainerRef} className="w-full h-full bg-[#141816]" />
-
-          {/* Bottom-left Editorial Framing (no box, no shadow) */}
-          <div className="absolute bottom-6 left-6 z-[400] pointer-events-none select-none">
-            <div className="font-serif text-[28px] leading-none text-[#F5F2EA] font-normal tracking-wide">
-              Thrissur District
-            </div>
-            <div className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#A7B99A] font-semibold mt-1">
-              Kerala
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
